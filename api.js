@@ -1,14 +1,8 @@
 const https = require('https')
 
-const options = {
-  url: 'https://www.vcg.com/api/common/searchImage?phrase=%E6%98%A5%E5%A4%A9&graphicalStyle%5B0%5D=1&page=1',
-  // headers: {
-  //   'host': 'www.zk.com',
-  //   'Content-Type': 'application/json'
-  //   // 'x-syl-client-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJNb0h1bWZGeWt3bFdmT2JoNVVSSXpvNEdrV0dHVFZpdSIsImlhdCI6MTU5OTc5MTE0MSwiZXhwIjoxNTk5ODc3NTQxfQ.BjhTM1jyxqyg3FiMHuFj7Jr1DnWmicdqlGqTDcmt0LQ'
-  // }
-}
-https.get(options,(res) => {
+const getApi = 'https://www.vcg.com/api/common/searchImage?phrase=%E6%98%A5%E5%A4%A9&graphicalStyle%5B0%5D=1&page=1'
+
+https.get(getApi,(res) => {
   // res.setEncoding('utf8')
   let rawData = ''
   console.log(res)
