@@ -1,33 +1,37 @@
 (async() => {
     const puppeteer = require('puppeteer')
-    const goUrl = 'http://localhost:8080/login'
-    const username = 'test@pensees.com'
-    const password = '123456'
+    const goUrl = 'http://dev.cimevue.cn:3379/'
     // 启动浏览器
-    const browser = await puppeteer.launch()
+    const browser = await puppeteer.launch(
+        {
+            headless: false,
+            defaultViewport: { width: 1440, height: 1000 },
+            }
+        )
     // 地址监听变化
     browser.on('targetchanged', async (targer) =>{
         if(page){
-            console.log('登录成功')
-            console.log(targer)
+            if(targer.url() === 'http://dev.cimevue.cn:3379/login?from=/'){
+                const username = 'admin'
+                const password = 'pensees@1234'
+                await page.waitForSelector('input[name=j_username]')
+                await page.type('input[name=j_username]',username,{delay:100})
+                await page.waitForSelector('input[name=j_password]')
+                await page.type('input[name=j_password]',password,{delay:100})
+                const submitBtn = '.submit-button'
+                await page.waitForSelector(submitBtn)
+                await page.click(submitBtn)
+                console.log('登录成功')
+            }
         }
     })
-
-
     // 新建tab页面
     const page = await browser.newPage()
     // 打开网站地址
     await page.goto(goUrl)
     // 等待网页中某个元素加载完成
-    await page.waitForSelector('input[placeholder=用户名]')
-    await page.waitForSelector('input[type=password]')
-
-    await page.type('input[placeholder=邮箱]',username)
-    await page.type('input[type=password]',password)
-
-    const submitBtn = '.login-btn'
-    await page.waitForSelector(submitBtn)
-    await page.click(submitBtn)
+    await page.waitForSelector('.call-to-action a')
+    await page.click('.call-to-action a')
 })()
 
 
